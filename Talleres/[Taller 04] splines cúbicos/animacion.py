@@ -4,17 +4,14 @@ from matplotlib.animation import FuncAnimation
 from sympy import lambdify, Symbol
 import sympy as sym
 from IPython.display import display
+import math
 
-
-# ###################################################################
-def cubic_spline_clamped(
-    xs: list[float], ys: list[float], B0: float, B1: float
-) -> list[sym.Symbol]:
+def cubic_spline_clamped(xs: list[float], ys: list[float], B0: float, B1: float) -> list[sym.Symbol]:
     """
     Cubic spline interpolation ``S``. Every two points are interpolated by a cubic polynomial
     ``S_j`` of the form ``S_j(x) = a_j + b_j(x - x_j) + c_j(x - x_j)^2 + d_j(x - x_j)^3.``
 
-    xs must be different  but not necessarily ordered nor equally spaced.
+    xs must be different but not necessarily ordered nor equally spaced.
 
     ## Parameters
     - xs, ys: points to be interpolated
@@ -23,12 +20,11 @@ def cubic_spline_clamped(
     ## Return
     - List of symbolic expressions for the cubic spline interpolation.
     """
-
     points = sorted(zip(xs, ys), key=lambda x: x[0])  # sort points by x
     xs = [x for x, _ in points]
     ys = [y for _, y in points]
     n = len(points) - 1  # number of splines
-    h = [xs[i + 1] - xs[i] for i in range(n)]  # distances between  contiguous xs
+    h = [xs[i + 1] - xs[i] for i in range(n)]  # distances between contiguous xs
 
     alpha = [0] * (n + 1)  # prealloc
     alpha[0] = 3 / h[0] * (ys[1] - ys[0]) - 3 * B0
@@ -58,14 +54,10 @@ def cubic_spline_clamped(
         b = (ys[j + 1] - ys[j]) / h[j] - h[j] * (c[j + 1] + 2 * c[j]) / 3
         d = (c[j + 1] - c[j]) / (3 * h[j])
         a = ys[j]
-        print(j, a, b, c[j], d)
         S = a + b * (x - xs[j]) + c[j] * (x - xs[j]) ** 2 + d * (x - xs[j]) ** 3
-
         splines.append(S)
     splines.reverse()
     return splines
-
-
 
 def animate_cubic_spline_B1_variation(xs, ys, B0, B1_values, interval=100):
     """
@@ -84,7 +76,7 @@ def animate_cubic_spline_B1_variation(xs, ys, B0, B1_values, interval=100):
     sorted_ys = [y for _, y in sorted_points]
     
     # Configurar la figura
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(10, 8))
     ax.set_xlim(min(sorted_xs)-0.5, max(sorted_xs)+0.5)
     ax.set_ylim(min(sorted_ys)-2, max(sorted_ys)+2)
     ax.grid(True)
@@ -103,22 +95,30 @@ def animate_cubic_spline_B1_variation(xs, ys, B0, B1_values, interval=100):
         line, = ax.plot([], [], lw=2)
         lines.append(line)
     
-    # Texto para mostrar el valor de B1
+    # Línea tangente en el último punto
+    tangent_line, = ax.plot([], [], 'g--', lw=2, label='Tangente en último punto')
+    
+    # Texto para mostrar el valor de B1 y el ángulo
     b1_text = ax.text(0.02, 0.95, '', transform=ax.transAxes, fontsize=12,
                       bbox=dict(facecolor='white', alpha=0.8))
+    angle_text = ax.text(0.02, 0.05, '', transform=ax.transAxes, fontsize=12,
+                         bbox=dict(facecolor='white', alpha=0.8))
     
     # Función de inicialización
     def init():
         for line in lines:
             line.set_data([], [])
+        tangent_line.set_data([], [])
         b1_text.set_text('')
-        return lines + [b1_text, scat]
+        angle_text.set_text('')
+        return lines + [tangent_line, b1_text, angle_text, scat]
     
     # Función de animación
     def update(frame):
         B1 = B1_values[frame]
         splines = cubic_spline_clamped(xs=sorted_xs, ys=sorted_ys, B0=B0, B1=B1)
         
+        # Dibujar los splines
         for j, (S, (x_start, x_end)) in enumerate(zip(splines, zip(sorted_xs[:-1], sorted_xs[1:]))):
             x_range = np.linspace(x_start, x_end, 100)
             S_func = lambdify(x_sym, S, 'numpy')
@@ -126,9 +126,23 @@ def animate_cubic_spline_B1_variation(xs, ys, B0, B1_values, interval=100):
             lines[j].set_data(x_range, y_vals)
             lines[j].set_label(f'S_{j}(x), B1={B1:.1f}')
         
+        # Dibujar la línea tangente en el último punto
+        last_x = sorted_xs[-1]
+        last_y = sorted_ys[-1]
+        tangent_x = np.linspace(last_x - 0.5, last_x + 0.5, 2)
+        tangent_y = last_y + B1 * (tangent_x - last_x)
+        tangent_line.set_data(tangent_x, tangent_y)
+        
+        # Calcular el ángulo de la tangente en grados
+        angle_rad = math.atan(B1)
+        angle_deg = math.degrees(angle_rad)
+        
+        # Actualizar textos
         b1_text.set_text(f'B1 = {B1:.2f}')
+        angle_text.set_text(f'Ángulo de la tangente: {angle_deg:.1f}°')
+        
         ax.legend(loc='upper left')
-        return lines + [b1_text, scat]
+        return lines + [tangent_line, b1_text, angle_text, scat]
     
     # Crear la animación
     ani = FuncAnimation(fig, update, frames=len(B1_values),
@@ -150,4 +164,6 @@ ani = animate_cubic_spline_B1_variation(xs, ys, B0, B1_values, interval=200)
 from IPython.display import HTML
 HTML(ani.to_jshtml())
 
-ani.save('Variacion_de_b1.gif', writer='pillow', fps=10)
+# Guardar la animación
+
+ani.save(r'C:/Users/PC/Desktop/Variacion_de_b1.gif', writer='pillow', fps=10)
