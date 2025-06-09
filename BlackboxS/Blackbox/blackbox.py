@@ -5,7 +5,7 @@
 Python 3
 19 / 05 / 2025
 @author: z_tjona
-
+S
 "I find that I don't understand things unless I try to program them."
 -Donald E. Knuth
 """
