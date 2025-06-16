@@ -7,22 +7,23 @@ Aplicación para clasificación de puntos 2D implementando un modelo Keras/Tenso
 
 ## Estructura del proyecto 🗂️
 
+```
 PROYECTO_METODOS_NUMERICOS/
-|-- Blackbox/
-| |-- pycache/
-| |-- init.py
-| |-- blackbox_S.keras # Modelo pre-entrenado
-| |-- blackbox.py # Módulo principal
-| |-- blackbox_s.ipynb # Notebook de desarrollo
-| |-- proyecto.py # Script principal
-| |-- readme.md # Documentación
-| `-- requirements.txt # Dependencias
-
-
+├── Blackbox/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── blackbox_S.keras        # Modelo pre-entrenado
+│   ├── blackbox.py             # Módulo principal
+│   ├── blackbox_s.ipynb        # Notebook de desarrollo
+│   ├── proyecto.py             # Script principal
+│   ├── readme.md               # Documentación
+│   └── requirements.txt        # Dependencias
+```
 
 ## Requisitos técnicos ⚙️
 
 **Versiones recomendadas:**
+
 - Python 3.8+
 - TensorFlow 2.8+
 - Keras 2.8+
@@ -32,9 +33,9 @@ PROYECTO_METODOS_NUMERICOS/
 ## Configuración inicial 🛠️
 
 1. Instalar dependencias:
-```bash
-pip install -r Blackbox/requirements.txt
-```
+   ```bash
+   pip install -r Blackbox/requirements.txt
+   ```
 
 2. Ejecutar la aplicación:
 ```bash
