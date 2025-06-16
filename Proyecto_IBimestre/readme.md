@@ -7,18 +7,18 @@ Aplicación para clasificación de puntos 2D implementando un modelo Keras/Tenso
 
 ## Estructura del proyecto 🗂️
 
-```
 PROYECTO_METODOS_NUMERICOS/
-├── Blackbox/
-│   ├── __pycache__/
-│   ├── __init__.py
-│   ├── blackbox_S.keras       # Modelo pre-entrenado
-│   ├── blackbox.py            # Módulo principal
-│   ├── blackbox_s.ipynb       # Notebook de desarrollo
-│   ├── proyecto.py            # Script principal
-│   ├── readme.md              # Documentación
-│   └── requirements.txt       # Dependencias
-```
+|-- Blackbox/
+| |-- pycache/
+| |-- init.py
+| |-- blackbox_S.keras # Modelo pre-entrenado
+| |-- blackbox.py # Módulo principal
+| |-- blackbox_s.ipynb # Notebook de desarrollo
+| |-- proyecto.py # Script principal
+| |-- readme.md # Documentación
+| `-- requirements.txt # Dependencias
+
+
 
 ## Requisitos técnicos ⚙️
 
