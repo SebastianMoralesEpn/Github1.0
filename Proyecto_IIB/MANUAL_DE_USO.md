@@ -13,7 +13,7 @@
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone [https://github.com/SebastianMoralesEpn/Github1.0/tree/0da0d9adbc6e6961cc6165a288c41a55de2f75c9/Proyecto_IIB]
    cd Proyecto_IIB
    ```
 
@@ -182,7 +182,7 @@ BACKGROUND_COLOR = "lightblue"
 
 Para reportar problemas o sugerencias:
 - **Issues**: Crear un issue en el repositorio
-- **Email**: [correo_del_proyecto]
+- **Email**: [sebastian.morales02@epn.edu.ec]
 - **Documentación**: Consulte el informe técnico adjunto
 
 ## 🔄 Actualizaciones
@@ -194,5 +194,5 @@ Para mantener el proyecto actualizado:
 
 ---
 
-**Última actualización**: [Fecha actual]
+**Última actualización**: [11/08/2025]
 **Versión**: 1.0.0
