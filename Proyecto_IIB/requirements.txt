@@ -1,0 +1,17 @@
+# Requerimientos para el Visualizador 3D de Horizonte - Ecuador
+
+# Procesamiento numérico
+numpy>=1.20.0
+
+# Visualización 3D
+pyvista>=0.32.0
+vtk>=9.0.0 # Dependencia de PyVista
+
+# Interfaz Gráfica de Usuario
+PyQt5>=5.15.0
+
+# Para un mejor manejo de rutas de archivos (opcional, pero recomendado)
+pathlib>=1.0.1
+
+# Para la gestión de configuración (opcional, si se necesita algo más complejo que config.py)
+# PyYAML # Si se usa YAML para configuración
